@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="14dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="10dp"
+    android:elevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ownerImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/content_description_item"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ownerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            custom:layout_constraintStart_toEndOf="@+id/ownerImage"
+            custom:layout_constraintTop_toTopOf="parent"
+            tools:text="Owner name" />
+
+
+        <TextView
+            android:id="@+id/repoNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="2dp"
+            android:text="@string/txt_repo_name"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            custom:layout_constraintBottom_toTopOf="@+id/repoName"
+            custom:layout_constraintStart_toEndOf="@+id/ownerImage" />
+
+
+        <TextView
+            android:id="@+id/repoName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/colorText"
+            android:textSize="12sp"
+            custom:layout_constraintBottom_toBottomOf="@+id/ownerImage"
+            custom:layout_constraintStart_toEndOf="@+id/ownerImage"
+            tools:text="@string/txt_repo_name" />
+
+
+        <br.com.monteoliva.testegithub.view.components.BoxData
+            android:id="@+id/starsNumber"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@+id/ownerImage"
+            custom:titleTxt="@string/txt_stars" />
+
+
+        <br.com.monteoliva.testegithub.view.components.BoxData
+            android:id="@+id/forksNumber"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintTop_toBottomOf="@+id/ownerImage"
+            custom:titleTxt="@string/txt_forks" />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</androidx.cardview.widget.CardView>

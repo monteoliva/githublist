@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">GitHub List</string>
+    <string name="progress_wait">Aguarde&#8230;</string>
+    <string name="btn_error">ERRO</string>
+    <string name="title">Repositórios GitHub</string>
+    <string name="txt_stars">Stars</string>
+    <string name="txt_forks">Forks</string>
+    <string name="txt_owner_name">Owner Name</string>
+    <string name="txt_repo_name">Repositório:</string>
+    <string name="content_description_item">Image Item</string>
 </resources>

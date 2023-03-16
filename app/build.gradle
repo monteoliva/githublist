@@ -28,12 +28,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            resValue "string", "API_URL"      , "http://"
+            resValue "string", "API_URL", "https://api.github.com"
         }
         debug {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            resValue "string", "API_URL"      , "http://"
+            resValue "string", "API_URL", "https://api.github.com"
         }
     }
     compileOptions {
