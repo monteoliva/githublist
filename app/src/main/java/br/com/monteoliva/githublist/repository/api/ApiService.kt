@@ -9,7 +9,7 @@ import br.com.monteoliva.githublist.repository.model.list.Repos
 
 interface ApiService {
     @GET("/search/repositories")
-    fun getAttachment(@Query("q") q: String = "language:kotlin",
-                      @Query("sort") sort: String = "stars",
-                      @Query("page") page: Int) : Call<WsResult<Repos>>
+    fun getList(@Query("q")    q: String,
+                @Query("sort") sort: String,
+                @Query("page") page: Int) : Call<WsResult<Repos>>
 }
