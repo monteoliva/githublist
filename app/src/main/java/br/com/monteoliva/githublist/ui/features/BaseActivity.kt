@@ -7,10 +7,12 @@ import android.os.Looper
 import android.view.KeyEvent
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
@@ -23,20 +25,15 @@ import br.com.monteoliva.githublist.repository.core.extensions.bottomToTop
 abstract class BaseActivity<T: ViewDataBinding> : AppCompatActivity() {
     protected var binding: T? = null
     private var actionBar: ActionBar? = null
-    private var mToolbar: Toolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayoutId())
+        startInitViews()
     }
 
     override fun onResume() {
         super.onResume()
-        initLocalViews()
-    }
-
-    private fun initLocalViews() {
-        startInitViews()
         startInitViewModel()
     }
 
@@ -48,6 +45,18 @@ abstract class BaseActivity<T: ViewDataBinding> : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({ initViewModel() }, 60)
     }
 
+    fun setupToolBar(toolbar: Toolbar) {
+        toolbar.apply {
+            this@BaseActivity.setSupportActionBar(this)
+            setTitleTextColor(ContextCompat.getColor(baseContext, R.color.white))
+        }
+        actionBar = supportActionBar
+    }
+    fun setActionBarTitle(title: String)            { actionBar?.title    = title }
+    fun setActionBarTitle(@StringRes title: Int)    { actionBar?.title    = getString(title) }
+    fun setActionBarSubTitle(title: String)         { actionBar?.subtitle = title }
+    fun setActionBarSubTitle(@StringRes title: Int) { actionBar?.subtitle = getString(title) }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         return if (keyCode == KeyEvent.KEYCODE_BACK) {
             back()
@@ -58,7 +67,7 @@ abstract class BaseActivity<T: ViewDataBinding> : AppCompatActivity() {
         }
     }
 
-    fun toolbarTitle(title: String) { mToolbar?.findViewById<TextView>(R.id.toolbar_title)?.text = title }
+  //fun toolbarTitle(title: String) { mToolbar?.findViewById<TextView>(R.id.toolbar_title)?.text = title }
 
     fun msgBox(msg: String) {
         AlertDialog.Builder(this, R.style.AlertDialogTheme)
@@ -81,6 +90,7 @@ abstract class BaseActivity<T: ViewDataBinding> : AppCompatActivity() {
     abstract fun initViews()
     abstract fun initViewModel()
     abstract fun back()
+    abstract fun setLoading(isLoading: Boolean)
 
     companion object {
         private const val TAG = "BaseActivity"

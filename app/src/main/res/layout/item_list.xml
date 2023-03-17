@@ -9,11 +9,12 @@
     android:layout_marginStart="14dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="10dp"
-    android:elevation="4dp">
+    android:elevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/cardview_light_background">
 
         <ImageView
             android:id="@+id/ownerImage"
@@ -42,7 +43,6 @@
             custom:layout_constraintTop_toTopOf="parent"
             tools:text="Owner name" />
 
-
         <TextView
             android:id="@+id/repoNameLabel"
             android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
             tools:text="@string/txt_repo_name" />
 
 
-        <br.com.monteoliva.testegithub.view.components.BoxData
+        <br.com.monteoliva.githublist.ui.components.BoxData
             android:id="@+id/starsNumber"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             custom:titleTxt="@string/txt_stars" />
 
 
-        <br.com.monteoliva.testegithub.view.components.BoxData
+        <br.com.monteoliva.githublist.ui.components.BoxData
             android:id="@+id/forksNumber"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -94,23 +94,6 @@
             custom:layout_constraintTop_toBottomOf="@+id/ownerImage"
             custom:titleTxt="@string/txt_forks" />
 
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </androidx.cardview.widget.CardView>

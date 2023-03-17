@@ -8,4 +8,5 @@
     <string name="txt_owner_name">Owner Name</string>
     <string name="txt_repo_name">Repositório:</string>
     <string name="content_description_item">Image Item</string>
+    <string name="error">Erro no sistema. Entre em contato com o administrador</string>
 </resources>

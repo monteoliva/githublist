@@ -11,18 +11,9 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
-            app:layout_collapseMode="pin">
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:textSize="20sp" />
-        </androidx.appcompat.widget.Toolbar>
+            app:layout_collapseMode="pin" />
     </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

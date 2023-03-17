@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import br.com.monteoliva.githublist.R
 import br.com.monteoliva.githublist.databinding.ActivitySplashScreenBinding
+import br.com.monteoliva.githublist.repository.core.extensions.visibility
 import br.com.monteoliva.githublist.ui.features.BaseActivity
 import br.com.monteoliva.githublist.ui.features.main.MainActivity
 
@@ -20,6 +21,7 @@ class SplashScreen : BaseActivity<ActivitySplashScreenBinding>() {
     override fun initViews() { load() }
     override fun initViewModel() {}
     override fun back() { finish() }
+    override fun setLoading(isLoading: Boolean) {}
 
     private fun load() {
         Handler(Looper.getMainLooper()).postDelayed({
