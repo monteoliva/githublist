@@ -6,7 +6,7 @@ import br.com.monteoliva.githublist.R
 import javax.inject.Inject
 
 import br.com.monteoliva.githublist.repository.api.ApiService
-import br.com.monteoliva.githublist.repository.model.Resultado
+import br.com.monteoliva.githublist.repository.model.WsResult
 
 class RepositoryServer @Inject constructor(private val context: Context) {
     private val server: ApiService
@@ -17,10 +17,10 @@ class RepositoryServer @Inject constructor(private val context: Context) {
         val sort   = "stars"
         val result = server.getList(q, sort, page)
         if (result.isSuccessful) {
-            emit(Resultado.Success(data = result.body()))
+            emit(WsResult.Success(data = result.body()))
         }
         else {
-            emit(Resultado.Error(exception = Exception(context.getString(R.string.error))))
+            emit(WsResult.Error(exception = Exception(context.getString(R.string.error))))
         }
     }
 }

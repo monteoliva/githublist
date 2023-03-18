@@ -1,6 +1,5 @@
 package br.com.monteoliva.githublist.repository.api
 
-import br.com.monteoliva.githublist.repository.model.Resultado
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.Response

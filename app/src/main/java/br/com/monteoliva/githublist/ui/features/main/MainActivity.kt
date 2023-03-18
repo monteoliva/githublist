@@ -9,7 +9,7 @@ import br.com.monteoliva.githublist.R
 import br.com.monteoliva.githublist.databinding.ActivityMainBinding
 import br.com.monteoliva.githublist.repository.core.extensions.isPortrait
 import br.com.monteoliva.githublist.repository.core.extensions.visibility
-import br.com.monteoliva.githublist.repository.model.Resultado
+import br.com.monteoliva.githublist.repository.model.WsResult
 import br.com.monteoliva.githublist.repository.model.data.Item
 import br.com.monteoliva.githublist.ui.adapter.ItemAdapter
 import br.com.monteoliva.githublist.ui.features.BaseActivity
@@ -37,10 +37,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 updateList().observe(this@MainActivity) {
                     it?.let { resultado ->
                         when(resultado) {
-                            is Resultado.Success -> {
+                            is WsResult.Success -> {
                                 resultado.data?.let { data -> data.items?.let { it1 -> loadList(it1) } }
                             }
-                            is Resultado.Error   -> {
+                            is WsResult.Error -> {
                                 binding?.frameLayout?.let { it1 ->
                                     Snackbar.make(
                                         it1,
@@ -53,7 +53,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             }
-            //responseServer.observe(this@MainActivity) { items -> loadList(items) }
         }
     }
 

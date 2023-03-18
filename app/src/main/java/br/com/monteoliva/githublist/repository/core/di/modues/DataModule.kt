@@ -11,9 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
-
     @Singleton
     @Provides
     fun bindRepositoryServer(@ApplicationContext context: Context) : Context = context
-
 }
