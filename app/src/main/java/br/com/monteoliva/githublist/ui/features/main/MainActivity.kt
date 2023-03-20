@@ -3,6 +3,7 @@ package br.com.monteoliva.githublist.ui.features.main
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 
 import br.com.monteoliva.githublist.R
@@ -13,6 +14,7 @@ import br.com.monteoliva.githublist.repository.model.WsResult
 import br.com.monteoliva.githublist.repository.model.data.Item
 import br.com.monteoliva.githublist.ui.adapter.ItemAdapter
 import br.com.monteoliva.githublist.ui.features.BaseActivity
+import br.com.monteoliva.githublist.utils.OnPaginationListener
 import br.com.monteoliva.githublist.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -61,15 +63,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         itemAdapter?.updateList(items)
         binding?.rv?.apply {
             setHasFixedSize(true)
-          //layoutManager =
             layoutManager = when (context.isPortrait()) {
                 true -> LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 else -> GridLayoutManager(context, NUN_COLUMNS)
             }
             adapter = itemAdapter
-
-
-
+            if      (layoutManager is LinearLayoutManager) { addScroll(layoutManager as LinearLayoutManager) }
+            else if (layoutManager is GridLayoutManager)   { addScroll(layoutManager as GridLayoutManager)   }
         }
 
         binding?.swipeRefresh?.isRefreshing = false
@@ -78,6 +78,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun back() { finish() }
     override fun setLoading(isLoading: Boolean) { binding?.mainProgress?.visibility(isLoading) }
+
+    private fun RecyclerView.addScroll(layoutManager: RecyclerView.LayoutManager) {
+        val mLayoutManager = when (layoutManager) {
+            is LinearLayoutManager -> layoutManager as LinearLayoutManager
+            else                   -> layoutManager as GridLayoutManager
+        }
+        addOnScrollListener(object : OnPaginationListener(mLayoutManager) {
+            override fun loadMoreItems() {
+                viewModel.apply {
+                    isLoading = true
+                    increment()
+                }
+            }
+            override fun isLastPage(): Boolean = viewModel.isLastPage
+            override fun isLoading(): Boolean  = viewModel.isLoading
+        })
+    }
+
 
     companion object {
         private val NUN_COLUMNS: Int = 2

@@ -14,6 +14,9 @@ import br.com.monteoliva.githublist.repository.model.data.Repositories
 class MainViewModel @Inject constructor(private val repository: RepositoryServer) : ViewModel() {
     val page: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
 
+    var isLastPage: Boolean = false
+    var isLoading: Boolean  = false
+
     fun initValue() {
         page.removeObserver {}
         page.postValue(1)
