@@ -31,7 +31,8 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(items: MutableList<Item>) {
+    fun updateList(items: MutableList<Item>, page: Int) {
+        if (page == 1) { list.clear() }
         list.addAll(items)
         notifyDataSetChanged()
     }
@@ -40,8 +41,7 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
     override fun getItemId(position: Int): Long = list[position].id.toLong()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item: Item = getItem(position)
-
+        val item: Item    = getItem(position)
         val stars: Double = item.stargazersCount.toDouble() / 1000
         val forks: Double = item.forksCount.toDouble() / 1000
 

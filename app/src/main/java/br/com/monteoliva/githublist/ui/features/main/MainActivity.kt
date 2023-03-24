@@ -10,8 +10,9 @@ import br.com.monteoliva.githublist.R
 import br.com.monteoliva.githublist.databinding.ActivityMainBinding
 import br.com.monteoliva.githublist.repository.core.extensions.isPortrait
 import br.com.monteoliva.githublist.repository.core.extensions.visibility
-import br.com.monteoliva.githublist.repository.model.WsResult
+import br.com.monteoliva.githublist.repository.core.extensions.wrapper
 import br.com.monteoliva.githublist.repository.model.data.Item
+import br.com.monteoliva.githublist.repository.model.data.Repositories
 import br.com.monteoliva.githublist.ui.adapter.ItemAdapter
 import br.com.monteoliva.githublist.ui.features.BaseActivity
 import br.com.monteoliva.githublist.utils.OnPaginationListener
@@ -37,18 +38,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             initValue()
             page.observe(this@MainActivity) {
                 updateList().observe(this@MainActivity) {
-                    it?.let { resultado ->
-                        when(resultado) {
-                            is WsResult.Success -> {
-                                resultado.data?.let { data -> data.items?.let { it1 -> loadList(it1) } }
-                            }
-                            is WsResult.Error -> {
+                    it.wrapper { data ->
+                        when (data) {
+                            is Repositories -> data.items?.let { it1 -> loadList(it1) }
+                            is String       -> {
                                 binding?.frameLayout?.let { it1 ->
-                                    Snackbar.make(
-                                        it1,
-                                        resultado.exception.message.toString(),
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
+                                    Snackbar.make(it1, data, Snackbar.LENGTH_SHORT).show()
                                 }
                             }
                         }
@@ -60,7 +55,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun loadList(items: MutableList<Item>) {
         binding?.swipeRefresh?.isRefreshing?.let { setLoading(!it) }
-        itemAdapter?.updateList(items)
+        itemAdapter?.updateList(items, viewModel.pageNumber)
         binding?.rv?.apply {
             setHasFixedSize(true)
             layoutManager = when (context.isPortrait()) {
@@ -98,6 +93,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
 
     companion object {
-        private val NUN_COLUMNS: Int = 2
+        private const val NUN_COLUMNS: Int = 2
     }
 }

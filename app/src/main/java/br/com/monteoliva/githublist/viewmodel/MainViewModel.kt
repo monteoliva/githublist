@@ -13,6 +13,7 @@ import br.com.monteoliva.githublist.repository.model.data.Repositories
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repository: RepositoryServer) : ViewModel() {
     val page: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
+    var serverResponse: LiveData<WsResult<Repositories?>>? = null
 
     var isLastPage: Boolean = false
     var isLoading: Boolean  = false
@@ -26,5 +27,5 @@ class MainViewModel @Inject constructor(private val repository: RepositoryServer
 
     fun increment() { page.postValue(page.value?.let { it + 1 }) }
 
-    private val pageNumber : Int get() = page.value ?: 0
+    val pageNumber : Int get() = page.value ?: 0
 }
