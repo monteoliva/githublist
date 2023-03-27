@@ -9,4 +9,6 @@
     <string name="txt_repo_name">Repositório:</string>
     <string name="content_description_item">Image Item</string>
     <string name="error">Erro no sistema. Entre em contato com o administrador</string>
+    <string name="error1">Falha de comunicação com o Servidor</string>
+    <string name="error2">Ocorreu uma falha desconhecida</string>
 </resources>

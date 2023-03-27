@@ -14,6 +14,7 @@ import br.com.monteoliva.githublist.R
 import br.com.monteoliva.githublist.repository.api.ApiService
 import br.com.monteoliva.githublist.repository.model.WsResult
 import br.com.monteoliva.githublist.repository.model.data.Repositories
+import java.net.ConnectException
 
 class RepositoryServer @Inject constructor(private val context: Context) {
     private val q    = "language:kotlin"
@@ -36,12 +37,20 @@ class RepositoryServer @Inject constructor(private val context: Context) {
     }
 
     fun getList(page: Int) = liveData {
-        val result = server.getList(q, sort, page)
-        if (result.isSuccessful) {
-            emit(WsResult.Success(data = result.body()))
+        try {
+            val result = server.getList(q, sort, page)
+            if (result.isSuccessful) {
+                emit(WsResult.Success(data = result.body()))
+            }
+            else {
+                emit(WsResult.Error(exception = Exception(context.getString(R.string.error))))
+            }
         }
-        else {
-            emit(WsResult.Error(exception = Exception(context.getString(R.string.error))))
+        catch (e: ConnectException) {
+            emit(WsResult.Error(exception = Exception(context.getString(R.string.error1))))
+        }
+        catch (e: Exception) {
+            emit(WsResult.Error(exception = Exception(context.getString(R.string.error2))))
         }
     }
 }
