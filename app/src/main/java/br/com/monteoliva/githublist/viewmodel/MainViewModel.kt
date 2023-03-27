@@ -23,6 +23,8 @@ class MainViewModel @Inject constructor(private val repository: RepositoryServer
         page.postValue(1)
     }
 
+    fun updateFirstList() : LiveData<WsResult<Repositories?>> = repository.getFirstList(pageNumber)
+
     fun updateList() : LiveData<WsResult<Repositories?>> = repository.getList(pageNumber)
 
     fun increment() { page.postValue(page.value?.let { it + 1 }) }

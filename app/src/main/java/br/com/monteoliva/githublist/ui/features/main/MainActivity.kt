@@ -37,7 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewModel.apply {
             initValue()
             page.observe(this@MainActivity) {
-                updateList().observe(this@MainActivity) {
+                updateFirstList().observe(this@MainActivity) {
                     it.wrapper { data ->
                         when (data) {
                             is Repositories -> data.items?.let { it1 -> loadList(it1) }
@@ -54,17 +54,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun loadList(items: MutableList<Item>) {
+        val mLayoutManager = GridLayoutManager(
+            this,
+            when (this.isPortrait()) {
+                true -> 1
+                else -> 2
+            })
         binding?.swipeRefresh?.isRefreshing?.let { setLoading(!it) }
         itemAdapter?.updateList(items, viewModel.pageNumber)
         binding?.rv?.apply {
             setHasFixedSize(true)
-            layoutManager = when (context.isPortrait()) {
-                true -> LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                else -> GridLayoutManager(context, NUN_COLUMNS)
-            }
-            adapter = itemAdapter
-            if      (layoutManager is LinearLayoutManager) { addScroll(layoutManager as LinearLayoutManager) }
-            else if (layoutManager is GridLayoutManager)   { addScroll(layoutManager as GridLayoutManager)   }
+            layoutManager = mLayoutManager
+            adapter       = itemAdapter
+            addOnScrollListener(object : OnPaginationListener(mLayoutManager) {
+                override fun loadMoreItems() {
+                    viewModel.apply {
+                        isLoading = true
+                        increment()
+                    }
+                }
+                override fun isLastPage(): Boolean = viewModel.isLastPage
+                override fun isLoading(): Boolean  = viewModel.isLoading
+            })
+
+
+            addScroll(mLayoutManager)
         }
 
         binding?.swipeRefresh?.isRefreshing = false
@@ -74,12 +88,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun back() { finish() }
     override fun setLoading(isLoading: Boolean) { binding?.mainProgress?.visibility(isLoading) }
 
-    private fun RecyclerView.addScroll(layoutManager: RecyclerView.LayoutManager) {
-        val mLayoutManager = when (layoutManager) {
-            is LinearLayoutManager -> layoutManager as LinearLayoutManager
-            else                   -> layoutManager as GridLayoutManager
-        }
-        addOnScrollListener(object : OnPaginationListener(mLayoutManager) {
+    private fun RecyclerView.addScroll(layoutManager: GridLayoutManager) {
+        addOnScrollListener(object : OnPaginationListener(layoutManager) {
             override fun loadMoreItems() {
                 viewModel.apply {
                     isLoading = true

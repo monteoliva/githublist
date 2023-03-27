@@ -21,10 +21,10 @@ class RepositoryServer @Inject constructor(private val context: Context) {
     private val server: ApiService
         get() = RetrofitMobile.invoke(context).create(ApiService::class.java)
 
-    suspend fun getFirstList() : LiveData<WsResult<Repositories?>> {
+    fun getFirstList(page: Int) : LiveData<WsResult<Repositories?>> {
         val liveData = MutableLiveData<WsResult<Repositories?>>()
-        val result   = server.getList(q, sort, 1)
         CoroutineScope(IO).launch {
+            val result = server.getList(q, sort, page)
             if (result.isSuccessful) {
                 liveData.postValue(WsResult.Success(data = result.body()))
             }
