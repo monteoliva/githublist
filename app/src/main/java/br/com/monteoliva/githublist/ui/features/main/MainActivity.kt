@@ -76,31 +76,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 override fun isLastPage(): Boolean = viewModel.isLastPage
                 override fun isLoading(): Boolean  = viewModel.isLoading
             })
-
-
-            addScroll(mLayoutManager)
         }
 
         binding?.swipeRefresh?.isRefreshing = false
         setLoading(false)
+        viewModel.isLoading = false
     }
 
     override fun back() { finish() }
     override fun setLoading(isLoading: Boolean) { binding?.mainProgress?.visibility(isLoading) }
-
-    private fun RecyclerView.addScroll(layoutManager: GridLayoutManager) {
-        addOnScrollListener(object : OnPaginationListener(layoutManager) {
-            override fun loadMoreItems() {
-                viewModel.apply {
-                    isLoading = true
-                    increment()
-                }
-            }
-            override fun isLastPage(): Boolean = viewModel.isLastPage
-            override fun isLoading(): Boolean  = viewModel.isLoading
-        })
-    }
-
 
     companion object {
         private const val NUN_COLUMNS: Int = 2
