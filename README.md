@@ -12,6 +12,7 @@ Tecnologias utilizadas
 - Retrofit2 para consumo de RestFull
 - Coroutines
 - LiveData
+- ViewModel
 - Jetpack DataViewBinding
 - Extensions
 - MVVM Arquitetura
