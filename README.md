@@ -11,6 +11,7 @@ Tecnologias utilizadas
 - OkHttp3
 - Retrofit2 para consumo de RestFull
 - Coroutines
+- LiveData
 - Jetpack DataViewBinding
 - Extensions
 - MVVM Arquitetura
