@@ -37,7 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewModel.apply {
             initValue()
             page.observe(this@MainActivity) {
-                updateFirstList().observe(this@MainActivity) {
+                updateList().observe(this@MainActivity) {
                     it.wrapper { data ->
                         when (data) {
                             is Repositories -> data.items?.let { it1 -> loadList(it1) }
