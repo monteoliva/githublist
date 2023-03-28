@@ -69,6 +69,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             addOnScrollListener(object : OnPaginationListener(mLayoutManager) {
                 override fun loadMoreItems() {
                     viewModel.apply {
+                        setProgress(true)
                         isLoading = true
                         increment()
                     }
@@ -80,11 +81,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         binding?.swipeRefresh?.isRefreshing = false
         setLoading(false)
+        setProgress(false)
         viewModel.isLoading = false
     }
 
     override fun back() { finish() }
     override fun setLoading(isLoading: Boolean) { binding?.mainProgress?.visibility(isLoading) }
+
+    private fun setProgress(isLoading: Boolean) { binding?.progressBar?.visibility(isLoading) }
 
     companion object {
         private const val NUN_COLUMNS: Int = 2

@@ -15,4 +15,4 @@ Tecnologias utilizadas
 - Extensions
 - MVVM Arquitetura
 - Custom Views
-
+- Looping infinito
