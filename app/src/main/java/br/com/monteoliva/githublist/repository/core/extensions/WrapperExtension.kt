@@ -1,5 +1,10 @@
 package br.com.monteoliva.githublist.repository.core.extensions
 
+import java.net.ConnectException
+import android.content.Context
+import retrofit2.Response
+
+import br.com.monteoliva.githublist.R
 import br.com.monteoliva.githublist.repository.model.WsResult
 
 fun <T> WsResult<T?>.wrapper(response: (Any) -> Unit) {
@@ -12,5 +17,23 @@ fun <T> WsResult<T?>.wrapper(response: (Any) -> Unit) {
                 response.invoke(result.exception.message.toString())
             }
         }
+    }
+}
+
+
+fun <T> Response<T?>.wrapper(context: Context) : WsResult<T?> {
+    return try {
+        if (this.isSuccessful) {
+            WsResult.Success(data = this.body())
+        }
+        else {
+            WsResult.Error(exception = Exception(context.getString(R.string.error)))
+        }
+    }
+    catch (e: ConnectException) {
+        WsResult.Error(exception = Exception(context.getString(R.string.error1)))
+    }
+    catch (e: Exception) {
+        WsResult.Error(exception = Exception(context.getString(R.string.error2)))
     }
 }

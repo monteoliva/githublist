@@ -10,11 +10,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-import br.com.monteoliva.githublist.R
 import br.com.monteoliva.githublist.repository.api.ApiService
+import br.com.monteoliva.githublist.repository.core.extensions.wrapper
 import br.com.monteoliva.githublist.repository.model.WsResult
 import br.com.monteoliva.githublist.repository.model.data.Repositories
-import java.net.ConnectException
 
 class RepositoryServer @Inject constructor(private val context: Context) {
     private val q    = "language:kotlin"
@@ -25,32 +24,12 @@ class RepositoryServer @Inject constructor(private val context: Context) {
     fun getFirstList(page: Int) : LiveData<WsResult<Repositories?>> {
         val liveData = MutableLiveData<WsResult<Repositories?>>()
         CoroutineScope(IO).launch {
-            val result = server.getList(q, sort, page)
-            if (result.isSuccessful) {
-                liveData.postValue(WsResult.Success(data = result.body()))
-            }
-            else {
-                liveData.postValue(WsResult.Error(exception = Exception(context.getString(R.string.error))))
-            }
+            liveData.postValue(server.getList(q, sort, page).wrapper(context))
         }
         return liveData
     }
 
     fun getList(page: Int) = liveData {
-        try {
-            val result = server.getList(q, sort, page)
-            if (result.isSuccessful) {
-                emit(WsResult.Success(data = result.body()))
-            }
-            else {
-                emit(WsResult.Error(exception = Exception(context.getString(R.string.error))))
-            }
-        }
-        catch (e: ConnectException) {
-            emit(WsResult.Error(exception = Exception(context.getString(R.string.error1))))
-        }
-        catch (e: Exception) {
-            emit(WsResult.Error(exception = Exception(context.getString(R.string.error2))))
-        }
+        emit(server.getList(q, sort, page).wrapper(context))
     }
 }
