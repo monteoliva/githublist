@@ -7,7 +7,7 @@ import retrofit2.Response
 import br.com.monteoliva.githublist.R
 import br.com.monteoliva.githublist.repository.model.WsResult
 
-fun <T> WsResult<T?>.wrapper(response: (Any) -> Unit) {
+fun <T> WsResult<T?>.wrapperResponse(response: (Any) -> Unit) {
     this.let { result ->
         when (result) {
             is WsResult.Success<*> -> {
@@ -21,7 +21,7 @@ fun <T> WsResult<T?>.wrapper(response: (Any) -> Unit) {
 }
 
 
-fun <T> Response<T?>.wrapper(context: Context) : WsResult<T?> {
+fun <T> Response<T?>.wrapperResponse(context: Context) : WsResult<T?> {
     return try {
         if (this.isSuccessful) {
             WsResult.Success(data = this.body())

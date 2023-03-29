@@ -67,8 +67,6 @@ abstract class BaseActivity<T: ViewDataBinding> : AppCompatActivity() {
         }
     }
 
-  //fun toolbarTitle(title: String) { mToolbar?.findViewById<TextView>(R.id.toolbar_title)?.text = title }
-
     fun msgBox(msg: String) {
         AlertDialog.Builder(this, R.style.AlertDialogTheme)
             .apply {

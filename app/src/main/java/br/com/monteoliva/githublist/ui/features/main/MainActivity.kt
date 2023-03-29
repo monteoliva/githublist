@@ -2,15 +2,13 @@ package br.com.monteoliva.githublist.ui.features.main
 
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 
 import br.com.monteoliva.githublist.R
 import br.com.monteoliva.githublist.databinding.ActivityMainBinding
 import br.com.monteoliva.githublist.repository.core.extensions.isPortrait
 import br.com.monteoliva.githublist.repository.core.extensions.visibility
-import br.com.monteoliva.githublist.repository.core.extensions.wrapper
+import br.com.monteoliva.githublist.repository.core.extensions.wrapperResponse
 import br.com.monteoliva.githublist.repository.model.data.Item
 import br.com.monteoliva.githublist.repository.model.data.Repositories
 import br.com.monteoliva.githublist.ui.adapter.ItemAdapter
@@ -37,18 +35,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewModel.apply {
             initValue()
             page.observe(this@MainActivity) {
-//                updateList().observe(this@MainActivity) {
-//                    it.wrapper { data ->
-//                        when (data) {
-//                            is Repositories -> data.items?.let { it1 -> loadList(it1) }
-//                            is String       -> {
-//                                binding?.frameLayout?.let { it1 ->
-//                                    Snackbar.make(it1, data, Snackbar.LENGTH_SHORT).show()
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+                updateList().observe(this@MainActivity) {
+                    it.wrapperResponse { data ->
+                        when (data) {
+                            is Repositories -> data.items?.let { it1 -> loadList(it1) }
+                            is String       -> {
+                                binding?.frameLayout?.let { it1 ->
+                                    Snackbar.make(it1, data, Snackbar.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
