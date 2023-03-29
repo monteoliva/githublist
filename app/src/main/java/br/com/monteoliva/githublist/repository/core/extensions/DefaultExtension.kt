@@ -48,9 +48,9 @@ fun Context.isLandscape() : Boolean =
 @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
 @Suppress("DEPRECATION")
 fun Context.isOnline() : Boolean {
-    var connected = false
+    var connected: Boolean
     @Suppress("LiftReturnOrAssignment")
-    this?.let {
+    this.let {
         val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val networkCapabilities = cm.activeNetwork ?: return false

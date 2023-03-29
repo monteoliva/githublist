@@ -37,18 +37,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewModel.apply {
             initValue()
             page.observe(this@MainActivity) {
-                updateList().observe(this@MainActivity) {
-                    it.wrapper { data ->
-                        when (data) {
-                            is Repositories -> data.items?.let { it1 -> loadList(it1) }
-                            is String       -> {
-                                binding?.frameLayout?.let { it1 ->
-                                    Snackbar.make(it1, data, Snackbar.LENGTH_SHORT).show()
-                                }
-                            }
-                        }
-                    }
-                }
+//                updateList().observe(this@MainActivity) {
+//                    it.wrapper { data ->
+//                        when (data) {
+//                            is Repositories -> data.items?.let { it1 -> loadList(it1) }
+//                            is String       -> {
+//                                binding?.frameLayout?.let { it1 ->
+//                                    Snackbar.make(it1, data, Snackbar.LENGTH_SHORT).show()
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
     }

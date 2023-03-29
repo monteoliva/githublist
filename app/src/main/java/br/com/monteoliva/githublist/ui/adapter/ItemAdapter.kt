@@ -52,7 +52,7 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
             forksNumber.setValue(roundOffDecimal(forks) + "k")
 
             itemView.apply {
-                item.owner?.avatarUrl?.let { ownerImage.loadImage(context, it) }
+                item.owner.avatarUrl.let { ownerImage.loadImage(context, it) }
             }
         }
     }

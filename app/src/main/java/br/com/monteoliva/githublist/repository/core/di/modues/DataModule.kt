@@ -1,6 +1,8 @@
 package br.com.monteoliva.githublist.repository.core.di.modues
 
 import android.content.Context
+import br.com.monteoliva.githublist.repository.core.RetrofitServer
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

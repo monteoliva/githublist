@@ -75,7 +75,7 @@ abstract class BaseActivity<T: ViewDataBinding> : AppCompatActivity() {
                 setTitle(R.string.btn_error)
                 setMessage(msg)
                 setCancelable(false)
-                setPositiveButton("OK") { _: DialogInterface?, _: Int -> {} }
+                setPositiveButton("OK") { _: DialogInterface?, _: Int -> }
                 create().show()
             }
     }
