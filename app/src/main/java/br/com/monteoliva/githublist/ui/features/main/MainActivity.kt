@@ -7,6 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import br.com.monteoliva.githublist.R
 import br.com.monteoliva.githublist.databinding.ActivityMainBinding
 import br.com.monteoliva.githublist.repository.core.extensions.isPortrait
+import br.com.monteoliva.githublist.repository.core.extensions.observerOnce
 import br.com.monteoliva.githublist.repository.core.extensions.visibility
 import br.com.monteoliva.githublist.repository.core.extensions.wrapperResult
 import br.com.monteoliva.githublist.repository.model.data.Item
@@ -34,8 +35,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initViewModel() {
         viewModel.apply {
             initValue()
-            page.observe(this@MainActivity) {
-                updateList().observe(this@MainActivity) {
+            page.observerOnce {
+                updateList().observerOnce {
                     it.wrapperResult { data ->
                         when (data) {
                             is Repositories -> data.items?.let { it1 -> loadList(it1) }
