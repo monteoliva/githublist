@@ -7,7 +7,7 @@ import androidx.lifecycle.liveData
 import javax.inject.Inject
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 import br.com.monteoliva.githublist.repository.api.ApiService
@@ -23,7 +23,7 @@ class RepositoryServer @Inject constructor(private val context: Context) {
 
     fun getFirstList(page: Int) : LiveData<WsResult<Repositories?>> {
         val liveData = MutableLiveData<WsResult<Repositories?>>()
-        CoroutineScope(IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             liveData.postValue(server.getList(q, sort, page).wrapper(context))
         }
         return liveData
