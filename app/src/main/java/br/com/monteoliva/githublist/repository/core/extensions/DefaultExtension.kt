@@ -1,15 +1,19 @@
 package br.com.monteoliva.githublist.repository.core.extensions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.provider.Settings.Secure
+import android.util.Base64
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.RequiresPermission
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+
 
 fun View.enabled(active: Boolean) { this.isEnabled = active }
 
@@ -34,6 +38,8 @@ fun View.isVisible():   Boolean = this.visibility == View.VISIBLE
 fun View.isInvisible(): Boolean = this.visibility == View.INVISIBLE
 fun View.isGone():      Boolean = this.visibility == View.GONE
 
+val currentTime: Long get() = System.currentTimeMillis()
+
 fun ImageView.loadImage(context: Context, url: String) {
     Glide.with(context).load(url).into(this)
 }
@@ -43,6 +49,12 @@ fun Context.isPortrait() : Boolean =
 
 fun Context.isLandscape() : Boolean =
     this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+fun String.baseEncrypt() : String = Base64.encodeToString(this.encodeToByteArray(), Base64.DEFAULT)
+fun String.baseDecrypt() : String = Base64.decode(this, Base64.DEFAULT).toString()
+
+//@SuppressLint("HardwareIds")
+//fun Context.getAndroidId() : String = Secure.getString(this.contentResolver, this)
 
 @ExperimentalCoroutinesApi
 @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
