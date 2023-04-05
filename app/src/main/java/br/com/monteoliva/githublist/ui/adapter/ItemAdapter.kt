@@ -27,14 +27,18 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
         val view = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.item_list, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(this, view)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(items: MutableList<Item>, page: Int) {
-        if (page == 1) { list.clear() }
-        list.addAll(items)
-        notifyDataSetChanged()
+    fun updateList(items: MutableList<Item>?, page: Int) {
+        items?.let {
+            if (it.isNotEmpty()) {
+                if (page == 1) { list.clear() }
+                list.addAll(it)
+                notifyDataSetChanged()
+            }
+        }
     }
 
     override fun getItemCount(): Int = list.size
@@ -59,12 +63,16 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
 
     private fun getItem(position: Int): Item = list[position]
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemAdapter: ItemAdapter, itemView: View): RecyclerView.ViewHolder(itemView) {
         val ownerName: TextView   = itemView.findViewById(R.id.ownerName)
         val repoName: TextView    = itemView.findViewById(R.id.repoName)
         val ownerImage: ImageView = itemView.findViewById(R.id.ownerImage)
         val starsNumber: BoxData  = itemView.findViewById(R.id.starsNumber)
         val forksNumber: BoxData  = itemView.findViewById(R.id.forksNumber)
+
+        init {
+
+        }
     }
 
     private fun roundOffDecimal(number: Double): String {

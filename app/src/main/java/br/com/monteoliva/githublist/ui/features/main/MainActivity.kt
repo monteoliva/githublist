@@ -17,11 +17,12 @@ import br.com.monteoliva.githublist.ui.features.BaseActivity
 import br.com.monteoliva.githublist.utils.OnPaginationListener
 import br.com.monteoliva.githublist.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val viewModel: MainViewModel by viewModels()
-    private var itemAdapter: ItemAdapter? = null
+    private var itemAdapter: ItemAdapter by Delegates.notNull()
 
     override fun getLayoutId(): Int = R.layout.activity_main
     override fun initViews() {
@@ -35,11 +36,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initViewModel() {
         viewModel.apply {
             initValue()
-            page.observerOnce {
+            page.observerOnce { page ->
                 updateList.observerOnce {
                     it.wrapperResult { data ->
                         when (data) {
-                            is Repositories -> data.items?.let { it1 -> loadList(it1) }
+                            is Repositories -> data.items?.let { it1 ->
+                                if (page == 1) { loadList(it1) }
+                                else           { loadUpdateList(it1) }
+                            }
                             is String       -> {
                                 binding?.frameLayout?.let { it1 ->
                                     Snackbar.make(it1, data, Snackbar.LENGTH_SHORT).show()
@@ -59,8 +63,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 true -> 1
                 else -> 2
             })
-        binding?.swipeRefresh?.isRefreshing?.let { setLoading(!it) }
-        itemAdapter?.updateList(items, viewModel.pageNumber)
+        binding?.swipeRefresh?.isRefreshing?.let { binding?.mainProgress?.visibility(!it) }
+        itemAdapter.updateList(items, viewModel.pageNumber)
         binding?.rv?.apply {
             setHasFixedSize(true)
             layoutManager = mLayoutManager
@@ -77,15 +81,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 override fun isLoading(): Boolean  = viewModel.isLoading
             })
         }
-
-        binding?.swipeRefresh?.isRefreshing = false
         setLoading(false)
-        setProgress(false)
-        viewModel.isLoading = false
+    }
+
+    private fun loadUpdateList(items: MutableList<Item>) {
+        itemAdapter.updateList(items, viewModel.pageNumber)
+        setLoading(false)
     }
 
     override fun back() { finish() }
-    override fun setLoading(isLoading: Boolean) { binding?.mainProgress?.visibility(isLoading) }
+    override fun setLoading(isLoading: Boolean) {
+        binding?.apply {
+            swipeRefresh?.isRefreshing = isLoading
+            mainProgress?.visibility(isLoading)
+        }
+        setProgress(isLoading)
+        viewModel.isLoading = isLoading
+    }
 
     private fun setProgress(isLoading: Boolean) { binding?.progressBar?.visibility(isLoading) }
 
