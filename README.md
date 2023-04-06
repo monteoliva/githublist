@@ -18,3 +18,4 @@ Tecnologias utilizadas
 - MVVM Arquitetura
 - Custom Views
 - Looping infinito
+- Teste Unitário com jUnit e Mockito
