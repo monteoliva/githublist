@@ -10,27 +10,29 @@ import androidx.core.content.ContextCompat
 
 import br.com.monteoliva.githublist.R
 
-class Progress(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    lateinit var view: View
-    lateinit var textView: TextView
+class Progress(context: Context?, attrs: AttributeSet) : LinearLayout(context, attrs) {
+    private var view: View? = null
+    private var textView: TextView? = null
 
     init {
         initViews()
     }
 
     private fun initViews() {
-        setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-        view = inflater.inflate(R.layout.progress, this)
-
-        textView = view.findViewById(R.id.txtProgress)
+        context?.let { ctx ->
+            setBackgroundColor(ContextCompat.getColor(ctx, android.R.color.transparent))
+            (ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).also {
+                it.inflate(R.layout.progress, this).also { view ->
+                    this.view = view
+                    textView  = view.findViewById(R.id.txtProgress)
+                }
+            }
+        }
     }
 
-    fun show() { view.visibility = View.VISIBLE }
-    fun hide() { view.visibility = View.GONE    }
+    fun show() { view?.visibility = View.VISIBLE }
+    fun hide() { view?.visibility = View.GONE    }
 
-    fun setText(msg: String) { textView.text = msg }
-    fun setText(msg: Int)    { textView.text = context.getString(msg) }
+    fun setText(msg: String) { textView?.text = msg }
+    fun setText(msg: Int)    { textView?.text = context.getString(msg) }
 }
