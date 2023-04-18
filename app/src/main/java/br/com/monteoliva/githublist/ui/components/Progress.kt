@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 
 import br.com.monteoliva.githublist.R
@@ -33,6 +34,6 @@ class Progress(context: Context?, attrs: AttributeSet) : LinearLayout(context, a
     fun show() { view?.visibility = View.VISIBLE }
     fun hide() { view?.visibility = View.GONE    }
 
-    fun setText(msg: String) { textView?.text = msg }
-    fun setText(msg: Int)    { textView?.text = context.getString(msg) }
+    fun setText(msg: String)         { textView?.text = msg }
+    fun setText(@StringRes msg: Int) { textView?.text = context.getString(msg) }
 }

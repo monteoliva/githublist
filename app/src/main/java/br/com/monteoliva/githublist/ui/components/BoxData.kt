@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 
 import br.com.monteoliva.githublist.R
@@ -41,6 +42,6 @@ class BoxData(context: Context?, attrs: AttributeSet) : LinearLayout(context, at
     fun show() { view?.visibility = View.VISIBLE }
     fun hide() { view?.visibility = View.GONE    }
 
-    fun setValue(msg: String) { txtValue?.text = msg }
-    fun setValue(msg: Int)    { txtValue?.text = context.getString(msg) }
+    fun setValue(msg: String)         { txtValue?.text = msg }
+    fun setValue(@StringRes msg: Int) { txtValue?.text = context.getString(msg) }
 }
